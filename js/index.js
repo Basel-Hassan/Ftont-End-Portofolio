@@ -98,62 +98,24 @@ document.addEventListener("scroll" , activeScrollSpy)
 //*  Navs & Tabs
 for (let i = 0; i < portfolioFiltersArr.length; i++) {
         portfolioFiltersArr[i].addEventListener("click" , function (e) {
-        e.target.classList.add("bg-linear-to-r")
-        e.target.classList.add("from-primary")
-        e.target.classList.add("to-secondary")
-        e.target.classList.add("text-white")
-        e.target.classList.add("hover:shadow-lg")
-        e.target.classList.add("hover:shadow-primary/50")
-        e.target.classList.remove("bg-white")
-        e.target.classList.remove("dark:bg-slate-800")
-        e.target.classList.remove("text-slate-600")
-        e.target.classList.remove("dark:text-slate-300")
-        e.target.classList.remove("hover:bg-slate-100")
-        e.target.classList.remove("dark:hover:bg-slate-700")
-        e.target.classList.remove("border")
-        e.target.classList.remove("border-slate-300")
-        e.target.classList.remove("dark:border-slate-700")
+        e.target.classList.add("bg-linear-to-r" , "from-primary" , "to-secondary" , "text-white" , "hover:shadow-lg" , "hover:shadow-primary/50")
+        e.target.classList.remove("bg-white" , "dark:bg-slate-800" , "text-slate-600" , "dark:text-slate-300" , "hover:bg-slate-100" , "dark:hover:bg-slate-700" , "border" , "border-slate-300" , "dark:border-slate-700")
         
         for (let index = 0; index < portfolioGridArr.length; index++) {
             if (e.target.getAttribute("data-filter") == "all") {
                 portfolioGridArr[index].style.display = "";
-                setTimeout(() => {
-                    portfolioGridArr[index].classList.add("card-on")
-                    portfolioGridArr[index].classList.remove("card-off")
-                });
             }else if(e.target.getAttribute("data-filter") !== portfolioGridArr[index].getAttribute("data-category")) {
-                portfolioGridArr[index].classList.remove("card-on")
-                portfolioGridArr[index].classList.add("card-off")
-                setTimeout(() => {
-                                    portfolioGridArr[index].style.display = "none";
-                }, 300);
+                portfolioGridArr[index].style.display = "none";
             } else {
-                portfolioGridArr[index].style.display = "";    
-                                setTimeout(() => {
-                    portfolioGridArr[index].classList.add("card-on")
-                    portfolioGridArr[index].classList.remove("card-off")
-                });  
+                portfolioGridArr[index].style.display = "";
                 }
         }
 
 
         for (let x = 0; x < portfolioFiltersArr.length; x++) {
             if (portfolioFiltersArr[x] !== e.target) {
-                portfolioFiltersArr[x].classList.remove("bg-linear-to-r")
-                portfolioFiltersArr[x].classList.remove("from-primary")
-                portfolioFiltersArr[x].classList.remove("to-secondary")
-                portfolioFiltersArr[x].classList.remove("text-white")
-                portfolioFiltersArr[x].classList.remove("hover:shadow-lg")
-                portfolioFiltersArr[x].classList.remove("hover:shadow-primary/50")
-                portfolioFiltersArr[x].classList.add("bg-white")
-                portfolioFiltersArr[x].classList.add("dark:bg-slate-800")
-                portfolioFiltersArr[x].classList.add("text-slate-600")
-                portfolioFiltersArr[x].classList.add("dark:text-slate-300")
-                portfolioFiltersArr[x].classList.add("hover:bg-slate-100")
-                portfolioFiltersArr[x].classList.add("dark:hover:bg-slate-700")
-                portfolioFiltersArr[x].classList.add("border")
-                portfolioFiltersArr[x].classList.add("border-slate-300")
-                portfolioFiltersArr[x].classList.add("dark:border-slate-700")
+        portfolioFiltersArr[x].classList.remove("bg-linear-to-r" , "from-primary" , "to-secondary" , "text-white" , "hover:shadow-lg" , "hover:shadow-primary/50")
+        portfolioFiltersArr[x].classList.add("bg-white" , "dark:bg-slate-800" , "text-slate-600" , "dark:text-slate-300" , "hover:bg-slate-100" , "dark:hover:bg-slate-700" , "border" , "border-slate-300" , "dark:border-slate-700")
             }
             
         }
