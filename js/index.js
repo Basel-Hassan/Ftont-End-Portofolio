@@ -20,11 +20,20 @@ var closeSettings = document.getElementById("close-settings")
 var resetSettings = document.getElementById("reset-settings")
 var fontOptions = Array.from(document.querySelectorAll(".font-option"))
 var checkFont = JSON.parse(localStorage.getItem("ariaChecked"))
-
+var colorsArr = [
+    {title : "Purple Blue" , primary :"#6366f1" , secondary : "#8b5cf6" , accent : "#a855f7"} ,
+    {title : "Pink Orange" , primary :"#ec4899" , secondary : "#f97316" , accent : "#fb923c"} ,
+    {title : "Green Emerald" , primary :"#10b981" , secondary : "#059669" , accent : "#34d399"} ,
+    {title : "Blue Cyan" , primary :"#3b82f6" , secondary : "#06b6d4" , accent : "#22d3ee"} ,
+    {title : "Red Rose" , primary :"#ef4343" , secondary : "#f43f5e" , accent : "#fb7185"} ,
+    {title : "Amber Orange" , primary :"#f59e0b" , secondary : "#ea580c" , accent : "#fbbf24"} ,
+]
+var themeColorsGrid = document.getElementById("theme-colors-grid")
 
 storeagetheme()
 fontStorage()
 changeFont()
+AddColorsBtns()
 
 //*  Theame 
 themeToggleButton.addEventListener("click" , function () {
@@ -205,3 +214,40 @@ resetSettings.addEventListener("click" , function () {
     }
 })
 
+function AddColorsBtns() {
+    let box = ""
+    for (let i = 0; i < colorsArr.length; i++) {
+        box += `
+        <button class="w-12 h-12 rounded-full cursor-pointer transition-transform hover:scale-110 border-2 border-slate-200 dark:border-slate-700 hover:border-primary shadow-sm" style="background: linear-gradient(135deg, ${colorsArr[i].primary}, ${colorsArr[i].secondary});" title="${colorsArr[i].title}" data-primary="${colorsArr[i].primary}" data-secondary="${colorsArr[i].secondary}" onclick="changeColors(${i})"></button>
+        `
+    }
+    themeColorsGrid.innerHTML = box
+}
+
+function changeColors(index) {
+    var colorBtnsArr = Array.from(document.querySelectorAll("#theme-colors-grid button"))
+    clearColors(index , colorBtnsArr)
+    
+    colorBtnsArr[index].classList.add("ring-2" , "ring-primary" , "ring-offset-2" , "ring-offset-white" , "dark:ring-offset-slate-900")
+    
+    html.style.cssText = `
+    --color-primary: ${colorsArr[index].primary}; 
+    --color-secondary: ${colorsArr[index].secondary}; 
+    --color-accent: ${colorsArr[index].accent};
+    `
+}
+
+function clearColors(index ,  colorBtnsArr) {
+    for (let i = 0; i < colorsArr.length; i++) {
+        if (i !== index) {
+            colorBtnsArr[i].classList.remove("ring-2" , "ring-primary" , "ring-offset-2" , "ring-offset-white" , "dark:ring-offset-slate-900")
+        }
+    }
+}
+
+
+//   <button class="w-12 h-12 rounded-full cursor-pointer transition-transform hover:scale-110 border-2 border-slate-200 dark:border-slate-700 hover:border-primary shadow-sm" style="background: linear-gradient(135deg, rgb(236, 72, 153), rgb(249, 115, 22));"></button>
+
+// ring-2 ring-primary ring-offset-2 ring-offset-white dark:ring-offset-slate-900
+
+// --color-primary: #ec4899; --color-secondary: #f97316; --color-accent: #fb923c;
