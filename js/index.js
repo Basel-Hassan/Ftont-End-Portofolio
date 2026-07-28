@@ -20,6 +20,7 @@ var closeSettings = document.getElementById("close-settings")
 var resetSettings = document.getElementById("reset-settings")
 var fontOptions = Array.from(document.querySelectorAll(".font-option"))
 var checkFont = JSON.parse(localStorage.getItem("ariaChecked"))
+var checkColor = localStorage.getItem("checkColor")
 var colorsArr = [
     {title : "Purple Blue" , primary :"#6366f1" , secondary : "#8b5cf6" , accent : "#a855f7"} ,
     {title : "Pink Orange" , primary :"#ec4899" , secondary : "#f97316" , accent : "#fb923c"} ,
@@ -29,11 +30,25 @@ var colorsArr = [
     {title : "Amber Orange" , primary :"#f59e0b" , secondary : "#ea580c" , accent : "#fbbf24"} ,
 ]
 var themeColorsGrid = document.getElementById("theme-colors-grid")
+var testimonialsCarousel = document.getElementById("testimonials-carousel")
+var testimonialCardsArr = Array.from(document.querySelectorAll(".testimonial-card"))
+var carouselIndicatorsArr = Array.from(document.querySelectorAll(".carousel-indicator"))
+var nextTestimonial = document.getElementById("next-testimonial")
+var prevTestimonial = document.getElementById("prev-testimonial")
+var carouselCurrentIndex = 0
+var fullName = document.getElementById("full-name")
+var email = document.getElementById("email")
+var phone = document.getElementById("phone")
+var projectDetails = document.getElementById("project-details")
 
 storeagetheme()
 fontStorage()
 changeFont()
 AddColorsBtns()
+ColorStorage()
+changeIndicatorsStyle(carouselCurrentIndex)
+clickIndicators()
+activeForm()
 
 //*  Theame 
 themeToggleButton.addEventListener("click" , function () {
@@ -144,6 +159,8 @@ closeSettings.addEventListener("click" , function() {
     settingsToggle.style.right = ""
 })
 
+//*  Font
+
 function fontActivate(option) {
     option.classList.remove("border-slate-200", "dark:border-slate-700");
     option.classList.add(
@@ -201,18 +218,7 @@ function fontStorage() {
     }
 }
 
-resetSettings.addEventListener("click" , function () {
-    for (let i = 0; i < fontOptions.length; i++) {
-        if (fontOptions[i].getAttribute("font-position")) {
-            body.classList.add(`font-${fontOptions[i].getAttribute("data-font")}`)
-            fontActivate(fontOptions[i])
-            localStorage.setItem("ariaChecked" , i)
-        }else {
-            body.classList.remove(`font-${fontOptions[i].getAttribute("data-font")}`)
-            notFontActivate(fontOptions[i])
-        }
-    }
-})
+//*  color
 
 function AddColorsBtns() {
     let box = ""
@@ -235,6 +241,8 @@ function changeColors(index) {
     --color-secondary: ${colorsArr[index].secondary}; 
     --color-accent: ${colorsArr[index].accent};
     `
+
+    localStorage.setItem("checkColor" , index)
 }
 
 function clearColors(index ,  colorBtnsArr) {
@@ -245,9 +253,118 @@ function clearColors(index ,  colorBtnsArr) {
     }
 }
 
+function ColorStorage() {
+    var colorBtnsArr = Array.from(document.querySelectorAll("#theme-colors-grid button"))
+    clearColors(checkColor , colorBtnsArr)
+    if (checkColor != null) {
+    colorBtnsArr[checkColor].classList.add("ring-2" , "ring-primary" , "ring-offset-2" , "ring-offset-white" , "dark:ring-offset-slate-900")
+    
+    html.style.cssText = `
+    --color-primary: ${colorsArr[checkColor].primary}; 
+    --color-secondary: ${colorsArr[checkColor].secondary}; 
+    --color-accent: ${colorsArr[checkColor].accent};
+    `
+    } else {
+    colorBtnsArr[0].classList.add("ring-2" , "ring-primary" , "ring-offset-2" , "ring-offset-white" , "dark:ring-offset-slate-900")
+    
+    html.style.cssText = `
+    --color-primary: ${colorsArr[0].primary}; 
+    --color-secondary: ${colorsArr[0].secondary}; 
+    --color-accent: ${colorsArr[0].accent};
+    `
+    }
+}
 
-//   <button class="w-12 h-12 rounded-full cursor-pointer transition-transform hover:scale-110 border-2 border-slate-200 dark:border-slate-700 hover:border-primary shadow-sm" style="background: linear-gradient(135deg, rgb(236, 72, 153), rgb(249, 115, 22));"></button>
+//*  reset
 
-// ring-2 ring-primary ring-offset-2 ring-offset-white dark:ring-offset-slate-900
+resetSettings.addEventListener("click" , function () {
+    for (let i = 0; i < fontOptions.length; i++) {
+        if (fontOptions[i].getAttribute("font-position")) {
+            body.classList.add(`font-${fontOptions[i].getAttribute("data-font")}`)
+            fontActivate(fontOptions[i])
+            localStorage.setItem("ariaChecked" , i)
+        }else {
+            body.classList.remove(`font-${fontOptions[i].getAttribute("data-font")}`)
+            notFontActivate(fontOptions[i])
+        }
+    }
 
-// --color-primary: #ec4899; --color-secondary: #f97316; --color-accent: #fb923c;
+    var colorBtnsArr = Array.from(document.querySelectorAll("#theme-colors-grid button"))
+    colorBtnsArr[0].classList.add("ring-2" , "ring-primary" , "ring-offset-2" , "ring-offset-white" , "dark:ring-offset-slate-900")
+    
+    html.style.cssText = `
+    --color-primary: ${colorsArr[0].primary}; 
+    --color-secondary: ${colorsArr[0].secondary}; 
+    --color-accent: ${colorsArr[0].accent};
+    `
+    localStorage.setItem("checkColor" , 0)
+})
+
+//*  Carousel
+
+function moveCarousel(currentIndex) {
+    var containerWidth = testimonialsCarousel.offsetWidth
+    var cardWidth = testimonialCardsArr[0].offsetWidth;
+    var visibleCards = Math.round(containerWidth / cardWidth);
+    var translate = ((100 / visibleCards) * currentIndex)
+    testimonialsCarousel.style.cssText = `
+    transform: translateX(${translate}%);
+    `
+}
+
+nextTestimonial.addEventListener("click" , function() {
+    carouselCurrentIndex++
+    if (carouselCurrentIndex >=  carouselIndicatorsArr.length) {
+        carouselCurrentIndex = 0
+    }
+
+    moveCarousel(carouselCurrentIndex)
+    changeIndicatorsStyle(carouselCurrentIndex)
+})
+
+prevTestimonial.addEventListener("click" , function() {
+    carouselCurrentIndex--
+    if (carouselCurrentIndex < 0) {
+        carouselCurrentIndex = carouselIndicatorsArr.length - 1
+    }
+    moveCarousel(carouselCurrentIndex)
+    changeIndicatorsStyle(carouselCurrentIndex)
+})
+
+function changeIndicatorsStyle(currentIndex) {
+    for (let i = 0; i < carouselIndicatorsArr.length; i++) {
+        if (carouselIndicatorsArr[i].getAttribute("data-index") == currentIndex) {
+            carouselIndicatorsArr[i].classList.add("active" , "bg-accent" , "scale-125")
+            carouselIndicatorsArr[i].classList.remove("bg-slate-400" , "dark:bg-slate-600")
+        }else {
+            carouselIndicatorsArr[i].classList.remove("active" , "bg-accent" , "scale-125")
+            carouselIndicatorsArr[i].classList.add("bg-slate-400" , "dark:bg-slate-600")
+        }
+    }
+}
+
+function clickIndicators() {
+    var containerWidth = testimonialsCarousel.offsetWidth
+    var cardWidth = testimonialCardsArr[0].offsetWidth;
+    var visibleCards = Math.round(containerWidth / cardWidth);
+    for (let i = 0; i < carouselIndicatorsArr.length; i++) {
+        carouselIndicatorsArr[i].addEventListener("click" , function(){
+            var indIndex = carouselIndicatorsArr[i].getAttribute("data-index")
+            var translate = ((100 / visibleCards) * indIndex)
+            testimonialsCarousel.style.cssText = `
+            transform: translateX(${translate}%);
+            `
+            changeIndicatorsStyle(indIndex)
+        })
+    }
+}
+
+//*  form
+
+document.forms[0].addEventListener("submit" , function(e) {
+    e.preventDefault()
+})
+
+function activeForm() {
+    
+}
