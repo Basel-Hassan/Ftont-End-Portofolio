@@ -14,3 +14,18 @@
     transform: scale(0.8);
     opacity: 0;
 }
+
+.my-confirm-btn{
+    background: linear-gradient(90deg,#ec4899,#f97316);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.my-confirm-btn:hover{
+    opacity: .9;
+}

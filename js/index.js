@@ -9,7 +9,7 @@ var portfolioSection = document.getElementById("portfolio")
 var experienceSection = document.getElementById("experience")
 var testimonialsSection = document.getElementById("testimonials")
 var contactSection = document.getElementById("contact")
-var navLinksArr = document.querySelectorAll(".nav-links a")
+var navLinksArr = Array.from(document.querySelectorAll(".nav-links a"))
 var portfolioFiltersArr = Array.from(document.querySelectorAll("#portfolio-filters button"))
 var portfolioGridArr = Array.from(document.querySelectorAll("#portfolio-grid > div"))
 var navBar = document.getElementById("header")
@@ -50,12 +50,14 @@ var kindArrow = document.getElementById("kindArrow")
 var kindOptions = document.getElementById("kindOptions")
 var kindOptionsArr = Array.from(document.querySelectorAll("#kindOptions .custom-option"))
 var kindText = document.getElementById("kindText")
-
 var salaryBtn = document.getElementById("salaryBtn")
 var salaryArrow = document.getElementById("salaryArrow")
 var salaryOptions = document.getElementById("salaryOptions")
 var salaryOptionsArr = Array.from(document.querySelectorAll("#salaryOptions .custom-option"))
 var salaryText = document.getElementById("salaryText")
+var navLinks = document.querySelector(".nav-links")
+var mobileMenuBtn = document.querySelector(".mobile-menu-btn")
+var menuIcon = document.getElementById("menuIcon")
 
 storeagetheme()
 fontStorage()
@@ -142,11 +144,11 @@ for (let i = 0; i < portfolioFiltersArr.length; i++) {
         
         for (let index = 0; index < portfolioGridArr.length; index++) {
             if (e.target.getAttribute("data-filter") == "all") {
-                portfolioGridArr[index].style.display = "";
+                portfolioGridArr[index].style.display = ""
             }else if(e.target.getAttribute("data-filter") !== portfolioGridArr[index].getAttribute("data-category")) {
-                portfolioGridArr[index].style.display = "none";
+                portfolioGridArr[index].style.display = "none"
             } else {
-                portfolioGridArr[index].style.display = "";
+                portfolioGridArr[index].style.display = ""
                 }
         }
 
@@ -161,6 +163,7 @@ for (let i = 0; i < portfolioFiltersArr.length; i++) {
         
     })
 }
+
 
 //*  Gear Side Bar
 
@@ -316,12 +319,24 @@ resetSettings.addEventListener("click" , function () {
 })
 
 //*  Carousel
+function getVisibleCards() {
+    if (window.innerWidth >= 1024) {
+        return 3;
+    }
+
+    if (window.innerWidth >= 640) {
+        return 2;
+    }
+
+    return 1;
+}
 
 function moveCarousel(currentIndex) {
-    var containerWidth = testimonialsCarousel.offsetWidth
-    var cardWidth = testimonialCardsArr[0].offsetWidth;
-    var visibleCards = Math.round(containerWidth / cardWidth);
-    var translate = ((100 / visibleCards) * currentIndex)
+    // let containerWidth = testimonialsCarousel.offsetWidth
+    // let cardWidth = testimonialCardsArr[0].offsetWidth;
+    // let visibleCards = Math.round(containerWidth / cardWidth);
+    let visibleCards = getVisibleCards();
+    let translate = ((100 / visibleCards) * currentIndex)
     testimonialsCarousel.style.cssText = `
     transform: translateX(${translate}%);
     `
@@ -359,13 +374,15 @@ function changeIndicatorsStyle(currentIndex) {
 }
 
 function clickIndicators() {
-    var containerWidth = testimonialsCarousel.offsetWidth
-    var cardWidth = testimonialCardsArr[0].offsetWidth;
-    var visibleCards = Math.round(containerWidth / cardWidth);
+    // let containerWidth = testimonialsCarousel.offsetWidth
+    // let cardWidth = testimonialCardsArr[0].offsetWidth;
+    // let visibleCards = Math.round(containerWidth / cardWidth);
+    let visibleCards = getVisibleCards();
+
     for (let i = 0; i < carouselIndicatorsArr.length; i++) {
         carouselIndicatorsArr[i].addEventListener("click" , function(){
-            var indIndex = carouselIndicatorsArr[i].getAttribute("data-index")
-            var translate = ((100 / visibleCards) * indIndex)
+            let indIndex = carouselIndicatorsArr[i].getAttribute("data-index")
+            let translate = ((100 / visibleCards) * indIndex)
             testimonialsCarousel.style.cssText = `
             transform: translateX(${translate}%);
             `
@@ -481,8 +498,24 @@ function activeForm() {
 
     if (nameValidation() && emailValidation() && phoneValidation() && detailsValidation()) {
         clearForm()
+    Swal.fire({
+    icon: "success",
+    title: "تم إرسال رسالتك بنجاح!",
+    text: "شكرًا لتواصلك، سأرد عليك في أقرب وقت ممكن.",
+    confirmButtonText: "حسنًا",
+    confirmButtonColor: "#ff6b35",
+    background: "#1e293b",
+    color: "#fff",
+    backdrop: "rgba(15,23,42,0.8)",
+    timer : 3000 ,
+    customClass: {
+        confirmButton: "my-confirm-btn"
+    },
+    buttonsStyling: false
+});
     }
 }
+
 
 submit.addEventListener("click" , function () {
     activeForm()
@@ -543,3 +576,21 @@ window.addEventListener("click" , function(e) {
         salaryArrow.style.transform = "rotate(0deg)"
     }
 })
+
+//* menu toggle
+
+mobileMenuBtn.addEventListener("click" , function() {
+    navLinks.classList.toggle("active")
+    menuIcon.classList.toggle("fa-bars")
+    menuIcon.classList.toggle("fa-times")
+})
+
+function closeMenuAfterClick() {
+    for (let item of navLinksArr) {
+        item.addEventListener("click" , function () {
+            navLinks.classList.remove("active")
+        })
+    }
+}
+
+closeMenuAfterClick()
