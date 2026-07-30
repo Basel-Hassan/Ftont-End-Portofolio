@@ -2210,18 +2210,20 @@
                       aria-labelledby="project-type-label"
                       aria-haspopup="listbox"
                       aria-expanded="false"
-                      tabindex="0">
+                      tabindex="0"
+                      id="kindBtn">
                       <span
-                        class="selected-text text-slate-500 dark:text-slate-400">اختر
+                        class="selected-text text-slate-500 dark:text-slate-400" id="kindText">اختر
                         نوع المشروع</span>
                       <i
                         class="fa-solid fa-chevron-down transition-transform duration-300 text-slate-600 dark:text-slate-400"
-                        aria-hidden="true"></i>
+                        aria-hidden="true" id="kindArrow"></i>
                     </div>
                     <div
                       class="custom-options absolute w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl mt-2 shadow-2xl z-50 hidden overflow-hidden"
                       role="listbox"
-                      aria-labelledby="project-type-label">
+                      aria-labelledby="project-type-label"
+                      id="kindOptions">
                       <div
                         class="custom-option px-6 py-3 hover:bg-primary/20 cursor-pointer transition-colors text-slate-700 dark:text-slate-200"
                         data-value="موقع ويب"
@@ -2269,18 +2271,20 @@
                       aria-labelledby="budget-label"
                       aria-haspopup="listbox"
                       aria-expanded="false"
-                      tabindex="0">
+                      tabindex="0"
+                      id="salaryBtn">
                       <span
-                        class="selected-text text-slate-500 dark:text-slate-400">اختر
+                        class="selected-text text-slate-500 dark:text-slate-400" id="salaryText">اختر
                         الميزانية</span>
                       <i
                         class="fa-solid fa-chevron-down transition-transform duration-300 text-slate-600 dark:text-slate-400"
-                        aria-hidden="true"></i>
+                        aria-hidden="true" id="salaryArrow"></i>
                     </div>
                     <div
                       class="custom-options absolute w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl mt-2 shadow-2xl z-50 hidden overflow-hidden"
                       role="listbox"
-                      aria-labelledby="budget-label">
+                      aria-labelledby="budget-label"
+                      id="salaryOptions">
                       <div
                         class="custom-option px-6 py-3 hover:bg-secondary/20 cursor-pointer transition-colors text-slate-700 dark:text-slate-200"
                         data-value="أقل من 20,000 جنيه"
@@ -2308,6 +2312,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div>
                   <label
                     for="project-details"

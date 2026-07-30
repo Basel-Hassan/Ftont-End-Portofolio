@@ -45,6 +45,17 @@ var phoneMessage = document.getElementById("phoneMessage")
 var projectDetails = document.getElementById("project-details")
 var detailsMessage = document.getElementById("detailsMessage")
 var submit = document.querySelector("form button")
+var kindBtn = document.getElementById("kindBtn")
+var kindArrow = document.getElementById("kindArrow")
+var kindOptions = document.getElementById("kindOptions")
+var kindOptionsArr = Array.from(document.querySelectorAll("#kindOptions .custom-option"))
+var kindText = document.getElementById("kindText")
+
+var salaryBtn = document.getElementById("salaryBtn")
+var salaryArrow = document.getElementById("salaryArrow")
+var salaryOptions = document.getElementById("salaryOptions")
+var salaryOptionsArr = Array.from(document.querySelectorAll("#salaryOptions .custom-option"))
+var salaryText = document.getElementById("salaryText")
 
 storeagetheme()
 fontStorage()
@@ -435,6 +446,12 @@ function clearForm() {
     email.value = ""
     phone.value = ""
     projectDetails.value = ""
+    kindText.innerHTML = "اختر نوع المشروع"
+    kindText.classList.remove("text-slate-800" , "dark:text-white")
+    kindText.classList.add("text-slate-500" , "dark:text-slate-400")
+    salaryText.innerHTML = "اختر الميزانية"
+    salaryText.classList.remove("text-slate-800" , "dark:text-white")
+    salaryText.classList.add("text-slate-500" , "dark:text-slate-400")
 }
 
 function activeForm() {
@@ -469,4 +486,60 @@ function activeForm() {
 
 submit.addEventListener("click" , function () {
     activeForm()
+})
+
+//* Select
+
+kindBtn.addEventListener("click" , function() {
+    kindOptions.classList.toggle("hidden")
+    if (!kindOptions.classList.contains("hidden")) {
+        kindArrow.style.transform = "rotate(180deg)"
+    }else {
+        kindArrow.style.transform = "rotate(0deg)"
+    }
+})
+
+salaryBtn.addEventListener("click" , function() {
+    salaryOptions.classList.toggle("hidden")
+    if (!salaryOptions.classList.contains("hidden")) {
+        salaryArrow.style.transform = "rotate(180deg)"
+    }else {
+        salaryArrow.style.transform = "rotate(0deg)"
+    }
+})
+
+function addOptions() {
+    for (let item of kindOptionsArr) {
+        item.addEventListener("click" , function() {
+            kindText.innerHTML = item.getAttribute("data-value")
+            kindText.classList.add("text-slate-800" , "dark:text-white")
+            kindText.classList.remove("text-slate-500" , "dark:text-slate-400")
+            kindOptions.classList.add("hidden")
+            kindArrow.style.transform = "rotate(0deg)"
+        })
+    }
+
+    for (let item of salaryOptionsArr) {
+        item.addEventListener("click" , function() {
+            salaryText.innerHTML = item.getAttribute("data-value")
+            salaryText.classList.add("text-slate-800" , "dark:text-white")
+            salaryText.classList.remove("text-slate-500" , "dark:text-slate-400")
+            salaryOptions.classList.add("hidden")
+            salaryArrow.style.transform = "rotate(0deg)"
+        })
+    }
+}
+
+addOptions()
+
+window.addEventListener("click" , function(e) {
+    if (!kindBtn.contains(e.target) && !kindOptions.contains(e.target)) {
+        kindOptions.classList.add("hidden")
+        kindArrow.style.transform = "rotate(0deg)"
+    }
+
+    if (!salaryBtn.contains(e.target) && !salaryOptions.contains(e.target)) {
+        salaryOptions.classList.add("hidden")
+        salaryArrow.style.transform = "rotate(0deg)"
+    }
 })
