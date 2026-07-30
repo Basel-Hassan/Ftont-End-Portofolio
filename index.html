@@ -2167,6 +2167,7 @@
                     required
                     class="w-full bg-white dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl px-6 py-4 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary transition-colors"
                     placeholder="أدخل اسمك الكامل" />
+                    <p id="nameMessage" class="error-message text-red-400 text-sm mt-1 hidden">يرجى إدخال الاسم الكامل</p>
                 </div>
                 <div>
                   <label for="email"
@@ -2180,6 +2181,8 @@
                     required
                     class="w-full bg-white dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl px-6 py-4 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary transition-colors"
                     placeholder="example@email.com" />
+                    <p id="emailMessage" class="error-message text-red-400 text-sm mt-1 hidden">يرجى إدخال البريد الإلكتروني</p>
+
                 </div>
                 <div>
                   <label for="phone" class="block text-lg font-medium mb-2">رقم
@@ -2191,7 +2194,10 @@
                     autocomplete="tel"
                     class="w-full bg-white dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl px-6 py-4 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary transition-colors"
                     placeholder="+20 10 XXXX XXXX" />
+                    <p id="phoneMessage" class="error-message text-red-400 text-sm mt-1 hidden">يرجى إدخال رقم هاتف صحيح</p>
+
                 </div>
+                
                 <div>
                   <label
                     id="project-type-label"
@@ -2249,6 +2255,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div>
                   <label
                     id="budget-label"
@@ -2313,6 +2320,9 @@
                     required
                     class="w-full bg-white dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl px-6 py-4 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary transition-colors resize-none"
                     placeholder="احكيلي تفاصيل مشروعك..."></textarea>
+
+                    <p id="detailsMessage" class="error-message text-red-400 text-sm mt-1 hidden">يرجى إدخال تفاصيل المشروع</p>
+
                 </div>
                 <button
                   type="submit"

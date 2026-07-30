@@ -37,9 +37,14 @@ var nextTestimonial = document.getElementById("next-testimonial")
 var prevTestimonial = document.getElementById("prev-testimonial")
 var carouselCurrentIndex = 0
 var fullName = document.getElementById("full-name")
+var nameMessage = document.getElementById("nameMessage")
 var email = document.getElementById("email")
+var emailMessage = document.getElementById("emailMessage")
 var phone = document.getElementById("phone")
+var phoneMessage = document.getElementById("phoneMessage")
 var projectDetails = document.getElementById("project-details")
+var detailsMessage = document.getElementById("detailsMessage")
+var submit = document.querySelector("form button")
 
 storeagetheme()
 fontStorage()
@@ -48,7 +53,6 @@ AddColorsBtns()
 ColorStorage()
 changeIndicatorsStyle(carouselCurrentIndex)
 clickIndicators()
-activeForm()
 
 //*  Theame 
 themeToggleButton.addEventListener("click" , function () {
@@ -365,6 +369,104 @@ document.forms[0].addEventListener("submit" , function(e) {
     e.preventDefault()
 })
 
-function activeForm() {
-    
+function nameValidation() {
+    let nameValue = fullName.value
+
+    if (!nameValue) {
+        return false ;
+    }
+
+    return true ;
 }
+
+fullName.addEventListener("input" , function() {
+    nameMessage.classList.add("hidden")
+})
+
+function emailValidation() {
+    let emailValue = email.value
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailValue) {
+        return false ;
+    }
+
+    return emailRegex.test(emailValue)
+
+    return true ;
+}
+
+email.addEventListener("input" , function() {
+    emailMessage.classList.add("hidden")
+})
+
+function phoneValidation() {
+    let phoneValue = phone.value
+    const PhoneRegex = /^(?:\+20|20|0)?1[0125]\d{8}$/;
+
+    if (!phoneValue) {
+        return true ;
+    }
+    return PhoneRegex.test(phoneValue);
+    return true ;
+}
+
+phone.addEventListener("input" , function() {
+    phoneMessage.classList.add("hidden")
+})
+
+function detailsValidation() {
+    let detailsValue = projectDetails.value
+    const detailsRegex = /^.{10,}$/;
+
+    if (!detailsValue) {
+        return false ;
+    }
+    return detailsRegex.test(detailsValue);
+    return true ;
+}
+
+projectDetails.addEventListener("input" , function() {
+    detailsMessage.classList.add("hidden")
+})
+
+function clearForm() {
+    fullName.value = ""
+    email.value = ""
+    phone.value = ""
+    projectDetails.value = ""
+}
+
+function activeForm() {
+    if (nameValidation()) {
+        nameMessage.classList.add("hidden")
+    } else {
+        nameMessage.classList.remove("hidden")
+    }
+
+    if (emailValidation()) {
+        emailMessage.classList.add("hidden")
+    } else {
+        emailMessage.classList.remove("hidden")
+    }
+
+    if (phoneValidation()) {
+        phoneMessage.classList.add("hidden")
+    } else {
+        phoneMessage.classList.remove("hidden")
+    }
+
+    if (detailsValidation()) {
+        detailsMessage.classList.add("hidden")
+    } else {
+        detailsMessage.classList.remove("hidden")
+    }
+
+    if (nameValidation() && emailValidation() && phoneValidation() && detailsValidation()) {
+        clearForm()
+    }
+}
+
+submit.addEventListener("click" , function () {
+    activeForm()
+})
